@@ -131,7 +131,7 @@ goto End
 :updatelocker
 cls
 echo Checking for Updates
-FOR /F "tokens=* USEBACKQ" %%F IN (`netsh wlan show interfaces | Findstr /c:"Signal">nul && Echo Online || Echo Offline`) DO (
+FOR /F "tokens=* USEBACKQ" %%F IN (`netsh wlan show interfaces ^| Findstr /c:"Signal">nul && Echo Online ^|^| Echo Offline`) DO (
 SET internet=%%F
 )
 if "%internet%"== "offline" echo No Internet Connection is Available & echo An Internet Connection is Needed to Update the Folder Locker. & pause & goto CONFIRM

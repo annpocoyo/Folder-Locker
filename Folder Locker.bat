@@ -131,7 +131,11 @@ goto End
 :updatelocker
 cls
 echo Checking for Updates
-set "version=0.9.1"
+FOR /F "tokens=* USEBACKQ" %%F IN (`netsh wlan show interfaces | Findstr /c:"Signal">nul && Echo Online || Echo Offline`) DO (
+SET internet=%%F
+)
+if "%internet%"== "offline" echo No Internet Connection is Available & echo An Internet Connection is Needed to Update the Folder Locker. & pause & goto CONFIRM
+set "version=0.9.2"
 powershell "(New-Object System.Net.WebClient).DownloadFile(\"https://raw.githubusercontent.com/annpocoyo/Folder-Locker/main/version.txt\", $env:temp + \"\version.txt\")"
 FOR /F "tokens=* USEBACKQ" %%F IN (`type "%temp%\version.txt"`) DO (
 SET newversion=%%F

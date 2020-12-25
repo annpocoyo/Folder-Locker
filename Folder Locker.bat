@@ -143,7 +143,7 @@ echo Updateing to Version: %newversion%
 echo @echo off>> %temp%\update.bat
 echo move /Y "%%temp%%\Folder Locker.bat"  "%~f0">> %temp%\update.bat
 echo start "" "%~f0">> %temp%\update.bat
-echo del /F "%%~f0" & exit>> %temp%\update.bat
+echo del /F "%%~f0" ^& exit>> %temp%\update.bat
 powershell "(New-Object System.Net.WebClient).DownloadFile(\"https://raw.githubusercontent.com/annpocoyo/Folder-Locker/main/Folder%%20Locker.bat\", $env:temp + \"\Folder Locker.bat\")"
 (
 start "" "%temp%\update.bat"

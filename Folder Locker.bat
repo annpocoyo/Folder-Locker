@@ -131,7 +131,7 @@ goto End
 :updatelocker
 cls
 echo Checking for Updates
-set "version=0.9.0"
+set "version=0.9.1"
 powershell "(New-Object System.Net.WebClient).DownloadFile(\"https://raw.githubusercontent.com/annpocoyo/Folder-Locker/main/version.txt\", $env:temp + \"\version.txt\")"
 FOR /F "tokens=* USEBACKQ" %%F IN (`type "%temp%\version.txt"`) DO (
 SET newversion=%%F
@@ -151,7 +151,7 @@ exit
 )
 :uptodate
 cls
-echo Up to date
+echo Up to Date
 pause
 goto CONFIRM
 :resetcon

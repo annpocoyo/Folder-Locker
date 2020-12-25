@@ -14,13 +14,15 @@ echo (3)Reset the folder locker.
 if %log%== 1 set lognow=off
 if not %log%== 1 set lognow=on
 echo (4)Turn %lognow% loging.
-echo (5)Exit
+echo (5)Update
+echo (6)Exit
 set/p "cho=>"
 if %cho%==1 goto LOCK
 if %cho%==2 goto set1password
 if %cho%==3 goto resetcon
 if %cho%==4 goto log
-if %cho%==5 goto End
+if %cho%==5 goto updatelocker
+if %cho%==6 goto End
 echo Invalid choice.
 goto CONFIRM
 :LOCK
@@ -127,8 +129,31 @@ echo Loging turned %lognow%>> "private/logs/folder locker log.log"
 pause
 goto End
 :updatelocker
+cls
+echo Checking for Updates
 set "version=0.9.0"
-(New-Object System.Net.WebClient).DownloadFile("https://raw.githubusercontent.com/annpocoyo/Folder-Locker/main/version.txt", $env:temp + "\version.txt")
+powershell "(New-Object System.Net.WebClient).DownloadFile(\"https://raw.githubusercontent.com/annpocoyo/Folder-Locker/main/version.txt\", $env:temp + \"\version.txt\")"
+FOR /F "tokens=* USEBACKQ" %%F IN (`type "%temp%\version.txt"`) DO (
+SET newversion=%%F
+)
+del /f "%temp%\version.txt"
+if not "%newversion%" gtr "%version%" goto uptodate
+cls
+echo Updateing to Version: %newversion%
+echo @echo off>> %temp%\update.bat
+echo move /Y "%%temp%%\Folder Locker.bat"  "%~f0">> %temp%\update.bat
+echo start "" "%~f0">> %temp%\update.bat
+echo del /F "%%~f0">> %temp%\update.bat
+powershell "(New-Object System.Net.WebClient).DownloadFile(\"https://raw.githubusercontent.com/annpocoyo/Folder-Locker/main/Folder%%20Locker.bat\", $env:temp + \"\Folder Locker.bat\")"
+(
+start "" "%temp%\update.bat"
+exit
+)
+:uptodate
+cls
+echo Up to date
+pause
+goto CONFIRM
 :resetcon
 cls
 color 0c

@@ -1,7 +1,7 @@
 # Folder-Locker
 A Folder Locker.
 ## What is it
-Its a batch file that locks a folder that it maked when set it up.
+Its a batch file that locks a folder that it maked when its set it up.
 ## Who is it for
 For People who went to Prevent Files From Being Viewed by Locking Them.
 ## How to Install and Use
@@ -42,4 +42,6 @@ That's All.
 There is no MacOS Version of the Folder Locker.
 
 However We are planing to make a MacOS Version of the Folder Locker So Stay Tuned.
+### Known Issues
+The Change Password Function is not Working Properly.
 ## That's All.

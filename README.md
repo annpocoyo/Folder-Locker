@@ -37,7 +37,7 @@ Step 3: Replace the Old Version of the Folder Locker With the New Version That Y
 That's All.
 ## Information
 ### Warnings
-**The Folder Locker Is In Bata, Therefore We are not Responsible for any Data Loss From using this Batch File**
+**The Folder Locker Is In Bata, Therefore We are not Responsible for any Data Loss From using this Batch File.**
 ### For MacOS Users
 There is no MacOS Version of the Folder Locker.
 

@@ -10,5 +10,6 @@ assignees: ''
 ___________________________________________________________________________________________________________
 Before sending this issue please make sure that the following checkboxes are checked and apply.
 - [ ] You have read the [The Contributing Guidelines](https://github.com/annpocoyo/Folder-Locker/blob/main/CONTRIBUTING.md).
+- [ ] You have read the [Code of conduct](https://github.com/annpocoyo/Folder-Locker/blob/main/CODE_OF_CONDUCT.md).
 - [ ] You have checked if the issue does not exist in the list of known issues.
 - [ ] You have checked that someone else has not posted the issue already.

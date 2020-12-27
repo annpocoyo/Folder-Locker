@@ -7,7 +7,6 @@ assignees: ''
 
 ---
 
-
 ___________________________________________________________________________________________________________
 Before sending this issue please make sure that the following checkboxes are checked and apply.
 - [ ] You have read the [The Contributing Guidelines](https://github.com/annpocoyo/Folder-Locker/blob/main/CONTRIBUTING.md).

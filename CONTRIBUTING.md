@@ -1,4 +1,4 @@
-# The Contribute Guidelines
+# The Contributing Guidelines
 Before Contributing Please Read The Contribute Guidelines
 
 ## Issues

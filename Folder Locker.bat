@@ -110,8 +110,8 @@ if not "%newpass%"=="%newconpass%" echo Password does not match && pause && exit
 FOR /F "tokens=* USEBACKQ" %%F IN (`powershell "[convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes(\"%setpass%\"))"`) DO (
 SET newhash=%%F
 )
-del /F /Q /A "%appdata%/locker/password/pass.encode"
-del /F /Q /A "Private/pass.encode"
+del /F /Q /A "%appdata%\locker\password\pass.encode"
+del /F /Q /A "Private\pass.encode"
 echo %newhash%>> "%appdata%/locker/password/pass.encode"
 attrib +h +s "%appdata%/locker/password/pass.encode"
 echo %newhash%>> "Private/pass.encode"
@@ -135,7 +135,7 @@ FOR /F "tokens=* USEBACKQ" %%F IN (`netsh interface show interface ^| Findstr /c
 SET internet=%%F
 )
 if "%internet%"== "Offline" cls & echo No Internet Connection is Available & echo An Internet Connection is Needed to Update the Folder Locker. & pause & goto CONFIRM
-set "version=0.9.4"
+set "version=0.9.5"
 powershell "(New-Object System.Net.WebClient).DownloadFile(\"https://raw.githubusercontent.com/annpocoyo/Folder-Locker/main/version.txt\", $env:temp + \"\version.txt\")"
 FOR /F "tokens=* USEBACKQ" %%F IN (`type "%temp%\version.txt"`) DO (
 SET newversion=%%F

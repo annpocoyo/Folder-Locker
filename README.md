@@ -43,5 +43,5 @@ There is no MacOS Version of the Folder Locker.
 
 However We are planing to make a MacOS Version of the Folder Locker So Stay Tuned.
 ### Known Issues
-The Change Password Function is not Working Properly.
+The Change Password Function is not Checking if the New Password Field and Confim Password Field Match.
 ## That's All.

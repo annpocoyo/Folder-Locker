@@ -3,9 +3,9 @@ color 0a
 title Folder Locker
 set "version=0.9.7"
 :top
-if NOT EXIST "%appdata%/locker/currentversion" goto createcurrentversion
+if NOT EXIST "%appdata%\locker\currentversion" goto createcurrentversion
 set "previousversion="
-FOR /F "tokens=* USEBACKQ" %%F IN (`type "%appdata%/locker/currentversion"`) DO (
+FOR /F "tokens=* USEBACKQ" %%F IN (`type "%appdata%\locker\currentversion"`) DO (
 SET previousversion=%%F
 )
 if NOT EXIST "%appdata%/locker/password/pass.encode" goto setpassword
@@ -171,7 +171,7 @@ goto CONFIRM
 CALL :setcurrentversion
 goto top
 :setcurrentversion
-echo %version%> %appdata%/locker/currentversion
+echo %version%> %appdata%\locker\currentversion
 EXIT /B 0
 :postupdate
 echo Updating to Version: %version%

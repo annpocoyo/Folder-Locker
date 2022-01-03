@@ -1,9 +1,15 @@
 @echo off
+color 0a
 title Folder Locker
+set "version=0.9.7"
 :top
+if NOT EXIST "%appdata%/locker/currentversion" goto createcurrentversion
+set "previousversion="
+FOR /F %%I IN (`type "%appdata%/locker/currentversion"`) DO @SET "previousversion=%%I"
 if NOT EXIST "%appdata%/locker/password/pass.encode" goto setpassword
 if EXIST "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}" goto UNLOCK
 if NOT EXIST Private goto MDPrivate
+if NOT "%previousversion%"=="%version%" goto postupdate
 :CONFIRM
 cls
 color 0a
@@ -135,7 +141,6 @@ FOR /F "tokens=* USEBACKQ" %%F IN (`netsh interface show interface ^| Findstr /c
 SET internet=%%F
 )
 if "%internet%"== "Offline" cls & echo No Internet Connection is Available & echo An Internet Connection is Needed to Update the Folder Locker. & pause & goto CONFIRM
-set "version=0.9.6"
 powershell "(New-Object System.Net.WebClient).DownloadFile(\"https://raw.githubusercontent.com/annpocoyo/Folder-Locker/main/version.txt\", $env:temp + \"\version.txt\")"
 FOR /F "tokens=* USEBACKQ" %%F IN (`type "%temp%\version.txt"`) DO (
 SET newversion=%%F
@@ -145,6 +150,8 @@ if not "%newversion%" gtr "%version%" goto uptodate
 cls
 echo Updating to Version: %newversion%
 echo @echo off>> %temp%\update.bat
+echo color 0a>> %temp%\update.bat
+echo echo Updating to Version: %newversion%>> %temp%\update.bat
 echo move /Y "%%temp%%\Folder Locker.bat"  "%~f0">> %temp%\update.bat
 echo start "" "%~f0">> %temp%\update.bat
 echo del /F "%%~f0" ^& exit>> %temp%\update.bat
@@ -158,6 +165,18 @@ cls
 echo Up to Date
 pause
 goto CONFIRM
+:createcurrentversion
+CALL :setcurrentversion
+goto top
+:setcurrentversion
+echo %version%> %appdata%/locker/currentversion
+EXIT /B 0
+:postupdate
+echo Updating to Version: %version%
+CALL :setcurrentversion
+echo Update Installed Successfully
+pause
+goto top
 :resetcon
 cls
 color 0c

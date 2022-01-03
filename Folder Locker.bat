@@ -8,7 +8,7 @@ set "previousversion="
 FOR /F "tokens=* USEBACKQ" %%F IN (`type "%appdata%\locker\currentversion"`) DO (
 SET previousversion=%%F
 )
-if NOT EXIST "%appdata%/locker/password/pass.encode" goto setpassword
+if NOT EXIST "%appdata%\locker\password\pass.encode" goto setpassword
 if EXIST "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}" goto UNLOCK
 if NOT EXIST Private goto MDPrivate
 if NOT "%previousversion%"=="%version%" goto postupdate
@@ -34,7 +34,7 @@ if %cho%==6 goto End
 echo Invalid choice.
 goto CONFIRM
 :LOCK
-if %log%== 1 echo %date% %time%>> "private/logs/folder locker log.log" && echo Private folder locked>> "private/logs/folder locker log.log"
+if %log%== 1 echo %date% %time%>> "private\logs\folder locker log.log" && echo Private folder locked>> "private\logs\folder locker log.log"
 ren Private "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}"
 attrib +h +s "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}"
 cls
@@ -49,46 +49,46 @@ echo Authencating
 FOR /F "tokens=* USEBACKQ" %%F IN (`powershell "[convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes(\"%pass%\"))"`) DO (
 SET word=%%F
 )
-FOR /F "tokens=* USEBACKQ" %%F IN (`type "%appdata%/locker/password/pass.encode"`) DO (
+FOR /F "tokens=* USEBACKQ" %%F IN (`type "%appdata%\locker\password\pass.encode"`) DO (
 SET hash=%%F
 )
 if NOT "%word%"=="%hash%" goto FAIL
 attrib -h -s "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}"
 ren "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}" Private
 cls
-if %log%== 1 echo %date% %time%>> "private/logs/folder locker log.log" && echo Private folder unlocked>> "private/logs/folder locker log.log"
+if %log%== 1 echo %date% %time%>> "private\logs\folder locker log.log" && echo Private folder unlocked>> "private\logs\folder locker log.log"
 echo Authencating completed successfuly
 echo Folder Unlocked
 pause
 goto End
 :FAIL
 cls
-if %log%== 1 echo %date% %time%>> "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}/logs/folder locker log.log" && echo User entered invalid password>> "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}/logs/folder locker log.log"
+if %log%== 1 echo %date% %time%>> "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}\logs\folder locker log.log" && echo User entered invalid password>> "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}\logs\folder locker log.log"
 echo Authencating failed
 echo Invalid password
 pause
 goto end
 :MDPrivate
 md Private
-echo %newhash%>> "Private/pass.encode"
-attrib +h +s "Private/pass.encode"
+echo %newhash%>> "Private\pass.encode"
+attrib +h +s "Private\pass.encode"
 echo Private created successfully
 pause
 goto End
 :setpassword
-md "%appdata%/locker/password/"
+md "%appdata%\locker\password\"
 if EXIST "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}" goto tampered
 echo Set a password.
 set/p "setpass=>" 
 FOR /F "tokens=* USEBACKQ" %%F IN (`powershell "[convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes(\"%setpass%\"))"`) DO (
 SET newhash=%%F
 )
-echo %newhash%>> "%appdata%/locker/password/pass.encode"
-attrib +h +s "%appdata%/locker/password/pass.encode"
+echo %newhash%>> "%appdata%\locker\password\pass.encode"
+attrib +h +s "%appdata%\locker\password\pass.encode"
 setx log 0
 goto top
 :tampered
-if %log%== 1 echo %date% %time%>> "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}/logs/folder locker log.log" && echo Password tampered>> "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}/logs/folder locker log.log"
+if %log%== 1 echo %date% %time%>> "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}\logs\folder locker log.log" && echo Password tampered>> "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}\logs\folder locker log.log"
 echo The folder locker has detected tampering with the password.
 echo Restoring password.
 xcopy "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}\pass.encode" "%appdata%\locker\password\" /q /h /y
@@ -102,7 +102,7 @@ echo Authencating
 FOR /F "tokens=* USEBACKQ" %%F IN (`powershell "[convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes(\"%pass%\"))"`) DO (
 SET word=%%F
 )
-FOR /F "tokens=* USEBACKQ" %%F IN (`type "%appdata%/locker/password/pass.encode"`) DO (
+FOR /F "tokens=* USEBACKQ" %%F IN (`type "%appdata%\locker\password\pass.encode"`) DO (
 SET hash=%%F
 )
 if NOT "%word%"=="%hash%" goto FAIL
@@ -120,20 +120,20 @@ SET newhash=%%F
 )
 del /F /Q /A "%appdata%\locker\password\pass.encode"
 del /F /Q /A "Private\pass.encode"
-echo %newhash%>> "%appdata%/locker/password/pass.encode"
-attrib +h +s "%appdata%/locker/password/pass.encode"
-echo %newhash%>> "Private/pass.encode"
-attrib +h +s "Private/pass.encode"
-if %log%== 1 echo %date% %time%>> "private/logs/folder locker log.log" && echo Password changed>> "private/logs/folder locker log.log"
+echo %newhash%>> "%appdata%\locker\password\pass.encode"
+attrib +h +s "%appdata%\locker\password\pass.encode"
+echo %newhash%>> "Private\pass.encode"
+attrib +h +s "Private\pass.encode"
+if %log%== 1 echo %date% %time%>> "private\logs\folder locker log.log" && echo Password changed>> "private\logs\folder locker log.log"
 goto top
 :log
 cls
 if %log%== 0 setx log 1
 if not %log%== 0 setx log 0
 echo Setting log complete.
-md "Private/logs"
-echo %date% %time%>> "private/logs/folder locker log.log"
-echo Logging turned %lognow%>> "private/logs/folder locker log.log"
+md "Private\logs"
+echo %date% %time%>> "private\logs\folder locker log.log"
+echo Logging turned %lognow%>> "private\logs\folder locker log.log"
 pause
 goto End
 :updatelocker
@@ -195,7 +195,7 @@ echo Authencating
 FOR /F "tokens=* USEBACKQ" %%F IN (`powershell "[convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes(\"%pass%\"))"`) DO (
 SET word=%%F
 )
-FOR /F "tokens=* USEBACKQ" %%F IN (`type "%appdata%/locker/password/pass.encode"`) DO (
+FOR /F "tokens=* USEBACKQ" %%F IN (`type "%appdata%\locker\password\pass.encode"`) DO (
 SET hash=%%F
 )
 if NOT "%word%"=="%hash%" goto FAIL
@@ -204,7 +204,7 @@ ren "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}" Private
 cls
 echo Authencating completed successfuly
 echo Reseting folder locker.
-if %log%== 1 echo %date% %time%>> "private/logs/folder locker log.log" && echo Folder locker reseted>> "private/logs/folder locker log.log"
+if %log%== 1 echo %date% %time%>> "private\logs\folder locker log.log" && echo Folder locker reseted>> "private\logs\folder locker log.log"
 echo.
 echo Backing up private folder
 xcopy Private Private_old\ /Y /E

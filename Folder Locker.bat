@@ -122,10 +122,10 @@ goto top
 cls
 if %log%== 0 setx log 1
 if not %log%== 0 setx log 0
-echo Seting log complete.
+echo Setting log complete.
 md "Private/logs"
 echo %date% %time%>> "private/logs/folder locker log.log"
-echo Loging turned %lognow%>> "private/logs/folder locker log.log"
+echo Logging turned %lognow%>> "private/logs/folder locker log.log"
 pause
 goto End
 :updatelocker
@@ -135,7 +135,7 @@ FOR /F "tokens=* USEBACKQ" %%F IN (`netsh interface show interface ^| Findstr /c
 SET internet=%%F
 )
 if "%internet%"== "Offline" cls & echo No Internet Connection is Available & echo An Internet Connection is Needed to Update the Folder Locker. & pause & goto CONFIRM
-set "version=0.9.5"
+set "version=0.9.6"
 powershell "(New-Object System.Net.WebClient).DownloadFile(\"https://raw.githubusercontent.com/annpocoyo/Folder-Locker/main/version.txt\", $env:temp + \"\version.txt\")"
 FOR /F "tokens=* USEBACKQ" %%F IN (`type "%temp%\version.txt"`) DO (
 SET newversion=%%F
@@ -143,7 +143,7 @@ SET newversion=%%F
 del /f "%temp%\version.txt"
 if not "%newversion%" gtr "%version%" goto uptodate
 cls
-echo Updateing to Version: %newversion%
+echo Updating to Version: %newversion%
 echo @echo off>> %temp%\update.bat
 echo move /Y "%%temp%%\Folder Locker.bat"  "%~f0">> %temp%\update.bat
 echo start "" "%~f0">> %temp%\update.bat
@@ -188,10 +188,10 @@ echo.
 echo Backing up private folder
 xcopy Private Private_old\ /Y /E
 echo.
-echo Deleteing private folder
+echo Deleting private folder
 rmdir /s /q "private"
 echo.
-echo Deleteing Password
+echo Deleting Configuration
 rmdir /s /q "%appdata%\locker"
 echo.
 echo Done

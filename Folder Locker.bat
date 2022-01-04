@@ -1,7 +1,7 @@
 @echo off
 color 0a
 title Folder Locker
-set "version=0.9.8.1"
+set "version=0.9.8.2"
 :top
 if NOT EXIST "%appdata%\locker\password\pass.encode" goto setpassword
 if NOT EXIST "%appdata%\locker\currentversion" goto createcurrentversion
@@ -46,7 +46,7 @@ echo Enter password to Unlock Your Secure Folder
 set/p "pass=>"
 cls
 echo Authencating
-FOR /F "tokens=* USEBACKQ" %%F IN (`powershell "[convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes(\"%pass%\"))"`) DO (
+FOR /F "tokens=* USEBACKQ" %%F IN (`powershell "[Security.Cryptography.HashAlgorithm]::Create('sha256').ComputeHash([Text.Encoding]::UTF8.GetBytes(\"%pass%\")) | %%{write-host -n $_.tostring('x2')}"`) DO (
 SET word=%%F
 )
 FOR /F "tokens=* USEBACKQ" %%F IN (`type "%appdata%\locker\password\pass.encode"`) DO (
@@ -83,7 +83,7 @@ md "%appdata%\locker\password\"
 if EXIST "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}" goto tampered
 echo Set a password.
 set/p "setpass=>" 
-FOR /F "tokens=* USEBACKQ" %%F IN (`powershell "[convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes(\"%setpass%\"))"`) DO (
+FOR /F "tokens=* USEBACKQ" %%F IN (`powershell "[Security.Cryptography.HashAlgorithm]::Create('sha256').ComputeHash([Text.Encoding]::UTF8.GetBytes(\"%setpass%\")) | %%{write-host -n $_.tostring('x2')}"`) DO (
 SET newhash=%%F
 )
 echo %newhash%>> "%appdata%\locker\password\pass.encode"
@@ -102,7 +102,7 @@ echo Enter old password
 set/p "pass=>"
 cls
 echo Authencating
-FOR /F "tokens=* USEBACKQ" %%F IN (`powershell "[convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes(\"%pass%\"))"`) DO (
+FOR /F "tokens=* USEBACKQ" %%F IN (`powershell "[Security.Cryptography.HashAlgorithm]::Create('sha256').ComputeHash([Text.Encoding]::UTF8.GetBytes(\"%pass%\")) | %%{write-host -n $_.tostring('x2')}"`) DO (
 SET word=%%F
 )
 FOR /F "tokens=* USEBACKQ" %%F IN (`type "%appdata%\locker\password\pass.encode"`) DO (
@@ -118,7 +118,7 @@ set/p "setpass=>"
 echo Confirm new password.
 set/p "setconpass=>"
 if not "%newpass%"=="%newconpass%" echo Password does not match && pause && exit
-FOR /F "tokens=* USEBACKQ" %%F IN (`powershell "[convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes(\"%setpass%\"))"`) DO (
+FOR /F "tokens=* USEBACKQ" %%F IN (`powershell "[Security.Cryptography.HashAlgorithm]::Create('sha256').ComputeHash([Text.Encoding]::UTF8.GetBytes(\"%setpass%\")) | %%{write-host -n $_.tostring('x2')}"`) DO (
 SET newhash=%%F
 )
 del /F /Q /A "%appdata%\locker\password\pass.encode"
@@ -153,6 +153,7 @@ SET newversion=%%F
 del /f "%temp%\version.txt"
 if not "%newversion%" gtr "%version%" goto uptodate
 cls
+if %log%== 1 echo %date% %time%>> "private\logs\folder locker log.log" && echo Updating Folder Locker to Version: %newversion%>> "private\logs\folder locker log.log"
 echo Updating to Version: %newversion%
 echo @echo off>> %temp%\update.bat
 echo color 0a>> %temp%\update.bat
@@ -178,7 +179,28 @@ echo %version%> %appdata%\locker\currentversion
 EXIT /B 0
 :postupdate
 echo Updating to Version: %version%
+if %log%== 1 echo %date% %time%>> "private\logs\folder locker log.log" && echo Beginning Post Update Process for Folder Locker Version: %version%>> "private\logs\folder locker log.log"
+if NOT "%previousversion%" gtr 0.9.8.1 (
+    if %log%== 1 echo %date% %time%>> "private\logs\folder locker log.log" && echo Converting Base64 Password Hash into SHA256 Hash>> "private\logs\folder locker log.log"
+    FOR /F "tokens=* USEBACKQ" %%F IN (`type "%appdata%\locker\password\pass.encode"`) DO (
+    SET oldhash=%%F
+    )
+    FOR /F "tokens=* USEBACKQ" %%F IN (`powershell "[Text.Encoding]::Utf8.GetString([Convert]::FromBase64String(\"%oldhash%\"))"`) DO (
+    SET pass=%%F
+    )
+    FOR /F "tokens=* USEBACKQ" %%F IN (`powershell "[Security.Cryptography.HashAlgorithm]::Create('sha256').ComputeHash([Text.Encoding]::UTF8.GetBytes(\"%pass%\")) | %%{write-host -n $_.tostring('x2')}"`) DO (
+    SET newhash=%%F
+    )
+    del /F /Q /A "%appdata%\locker\password\pass.encode"
+    del /F /Q /A "Private\pass.encode"
+    echo %newhash%>> "%appdata%\locker\password\pass.encode"
+    attrib +h +s "%appdata%\locker\password\pass.encode"
+    echo %newhash%>> "Private\pass.encode"
+    attrib +h +s "Private\pass.encode"
+)
 CALL :setcurrentversion
+if %log%== 1 echo %date% %time%>> "private\logs\folder locker log.log" && echo Successfully Updated Folder Locker to Version: %version%>> "private\logs\folder locker log.log"
+echo.
 echo Update Installed Successfully
 pause
 goto top
@@ -195,7 +217,7 @@ echo Enter password to confirm reset
 set/p "pass=>"
 cls
 echo Authencating
-FOR /F "tokens=* USEBACKQ" %%F IN (`powershell "[convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes(\"%pass%\"))"`) DO (
+FOR /F "tokens=* USEBACKQ" %%F IN (`powershell "[Security.Cryptography.HashAlgorithm]::Create('sha256').ComputeHash([Text.Encoding]::UTF8.GetBytes(\"%pass%\")) | %%{write-host -n $_.tostring('x2')}"`) DO (
 SET word=%%F
 )
 FOR /F "tokens=* USEBACKQ" %%F IN (`type "%appdata%\locker\password\pass.encode"`) DO (

@@ -1,7 +1,7 @@
 @echo off
 color 0a
 title Folder Locker
-set "version=0.9.8"
+set "version=0.9.81"
 :top
 if NOT EXIST "%appdata%\locker\password\pass.encode" goto setpassword
 if NOT EXIST "%appdata%\locker\currentversion" goto createcurrentversion
@@ -11,7 +11,7 @@ SET previousversion=%%F
 )
 if EXIST "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}" goto UNLOCK
 if NOT EXIST Private goto MDPrivate
-if NOT "%previousversion%"=="%version%" goto postupdate
+if "%previousversion%" lss "%version%" goto postupdate
 :CONFIRM
 cls
 color 0a

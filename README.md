@@ -43,7 +43,8 @@ There is no MacOS Version of the Folder Locker.
 
 However We are planing to make a MacOS Version of the Folder Locker So Stay Tuned.
 ### Known Issues
-1. The Change Password Function is not Checking if the New Password Field and Confim Password Field Match.
+None So Far. :)
 
-2. The Update Folder Locker Function does not Work.
+### System Requirements
+Windows 10 with Powershell (not new) and CMD are needed for the Folder Locker to Work. (If it works on other Specs let me know as this is the only configuration of windows I have.)
 ## That's All.

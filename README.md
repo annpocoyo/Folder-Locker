@@ -1,7 +1,7 @@
 # Folder-Locker
 A Folder Locker.
 ## What is it
-Its a batch file that locks a folder that it maked when its set it up.
+Its a batch file that locks a folder that it created when its setup.
 ## Who is it for
 For People who went to Prevent Files From Being Viewed by Locking Them.
 ## How to Install and Use
@@ -20,11 +20,13 @@ Step 6: To Unlock the Folder Run the Folder Locker and Enter your Password.
 That's All.
 ## How to Update
 ### Update the Folder Locker Automatically
-Step 1: Run the Folder Locker
+Step 1: Unlock the Folder
 
-Step 2: Type 5
+Step 2: Run the Folder Locker
 
-Step 3: Press Enter and it Will Update
+Step 3: Type 5
+
+Step 4: Press Enter and it Will Update
 
 That's All.
 ### Update the Folder Locker Manually

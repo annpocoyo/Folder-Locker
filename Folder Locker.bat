@@ -117,7 +117,7 @@ echo Enter new password.
 set/p "setpass=>"
 echo Confirm new password.
 set/p "setconpass=>"
-if not "%newpass%"=="%newconpass%" echo Password does not match && pause && exit
+if not "%setpass%"=="%setconpass%" echo Password does not match && pause && exit
 FOR /F "tokens=* USEBACKQ" %%F IN (`powershell "[Security.Cryptography.HashAlgorithm]::Create('sha256').ComputeHash([Text.Encoding]::UTF8.GetBytes(\"%setpass%\")) | %%{write-host -n $_.tostring('x2')}"`) DO (
 SET newhash=%%F
 )

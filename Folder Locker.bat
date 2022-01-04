@@ -3,12 +3,12 @@ color 0a
 title Folder Locker
 set "version=0.9.8"
 :top
+if NOT EXIST "%appdata%\locker\password\pass.encode" goto setpassword
 if NOT EXIST "%appdata%\locker\currentversion" goto createcurrentversion
 set "previousversion="
 FOR /F "tokens=* USEBACKQ" %%F IN (`type "%appdata%\locker\currentversion"`) DO (
 SET previousversion=%%F
 )
-if NOT EXIST "%appdata%\locker\password\pass.encode" goto setpassword
 if EXIST "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}" goto UNLOCK
 if NOT EXIST Private goto MDPrivate
 if NOT "%previousversion%"=="%version%" goto postupdate

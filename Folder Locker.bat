@@ -188,7 +188,7 @@ EXIT /B 0
 :postupdate
 echo Updating to Version: %version%
 if %log%== 1 echo %date% %time%>> "private\logs\folder locker log.log" && echo Beginning Post Update Process for Folder Locker Version: %version%>> "private\logs\folder locker log.log"
-if NOT "%previousversion%" gtr 0.9.8.1 (
+if NOT "%previousversion%" gtr "0.9.8.1" (
     if %log%== 1 echo %date% %time%>> "private\logs\folder locker log.log" && echo Converting Base64 Password Hash into SHA256 Hash>> "private\logs\folder locker log.log"
     FOR /F "tokens=* USEBACKQ" %%F IN (`type "%appdata%\locker\password\pass.encode"`) DO (
     SET oldhash=%%F

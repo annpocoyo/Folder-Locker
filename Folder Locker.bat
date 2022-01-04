@@ -1,7 +1,7 @@
 @echo off
 color 0a
 title Folder Locker
-set "version=0.9.81"
+set "version=0.9.8.1"
 :top
 if NOT EXIST "%appdata%\locker\password\pass.encode" goto setpassword
 if NOT EXIST "%appdata%\locker\currentversion" goto createcurrentversion

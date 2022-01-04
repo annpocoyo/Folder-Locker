@@ -189,15 +189,9 @@ echo Updating to Version: %version%
 if %log%== 1 echo %date% %time%>> "private\logs\folder locker log.log" && echo Beginning Post Update Process for Folder Locker Version: %version%>> "private\logs\folder locker log.log"
 if NOT "%previousversion%" gtr 0.9.8.1 (
     if %log%== 1 echo %date% %time%>> "private\logs\folder locker log.log" && echo Converting Base64 Password Hash into SHA256 Hash>> "private\logs\folder locker log.log"
-    FOR /F "tokens=* USEBACKQ" %%F IN (`type "%appdata%\locker\password\pass.encode"`) DO (
-    SET oldhash=%%F
-    )
-    FOR /F "tokens=* USEBACKQ" %%F IN (`powershell "[Text.Encoding]::Utf8.GetString([Convert]::FromBase64String(\"%oldhash%\"))"`) DO (
-    SET pass=%%F
-    )
-    FOR /F "tokens=* USEBACKQ" %%F IN (`powershell "[Security.Cryptography.HashAlgorithm]::Create('sha256').ComputeHash([Text.Encoding]::UTF8.GetBytes(\"%pass%\")) | %%{write-host -n $_.tostring('x2')}"`) DO (
-    SET newhash=%%F
-    )
+    FOR /F "tokens=* USEBACKQ" %%F IN (`type "%appdata%\locker\password\pass.encode"`) DO SET oldhash=%%F
+    FOR /F "tokens=* USEBACKQ" %%F IN (`powershell "[Text.Encoding]::Utf8.GetString([Convert]::FromBase64String(\"%oldhash%\"))"`) DO SET pass=%%F
+    FOR /F "tokens=* USEBACKQ" %%F IN (`powershell "[Security.Cryptography.HashAlgorithm]::Create('sha256').ComputeHash([Text.Encoding]::UTF8.GetBytes(\"%pass%\")) | %%{write-host -n $_.tostring('x2')}"`) DO SET newhash=%%F
     del /F /Q /A "%appdata%\locker\password\pass.encode"
     del /F /Q /A "Private\pass.encode"
     echo %newhash%>> "%appdata%\locker\password\pass.encode"

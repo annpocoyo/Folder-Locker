@@ -1,7 +1,7 @@
 @echo off
 color 0a
 title Folder Locker
-set "version=0.9.8.2"
+set "version=0.9.8.3"
 :top
 if NOT EXIST "%appdata%\locker\password\pass.encode" goto setpassword
 if NOT EXIST "%appdata%\locker\currentversion" goto createcurrentversion
@@ -52,7 +52,7 @@ SET word=%%F
 FOR /F "tokens=* USEBACKQ" %%F IN (`type "%appdata%\locker\password\pass.encode"`) DO (
 SET hash=%%F
 )
-if NOT "%word%"=="%hash%" goto FAIL
+if NOT "%word%"=="%hash%" goto FAILLocked
 attrib -h -s "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}"
 ren "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}" Private
 cls
@@ -61,9 +61,16 @@ echo Authencating completed successfuly
 echo Folder Unlocked
 pause
 goto End
-:FAIL
+:FAILLocked
 cls
 if %log%== 1 echo %date% %time%>> "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}\logs\folder locker log.log" && echo User entered invalid password>> "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}\logs\folder locker log.log"
+echo Authencating failed
+echo Invalid password
+pause
+goto end
+:FAIL
+cls
+if %log%== 1 echo %date% %time%>> "Private\logs\folder locker log.log" && echo User entered invalid password>> "Private\logs\folder locker log.log"
 echo Authencating failed
 echo Invalid password
 pause

@@ -2,7 +2,7 @@
 color 0a
 title Folder Locker
 setlocal enabledelayedexpansion
-set "version=0.9.8.4"
+set "version=0.9.8.5"
 :top
 if NOT EXIST "%appdata%\locker\password\pass.encode" goto setpassword
 if NOT EXIST "%appdata%\locker\currentversion" goto createcurrentversion

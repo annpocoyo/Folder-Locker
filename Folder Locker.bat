@@ -1,7 +1,7 @@
 @echo off
 color 0a
 title Folder Locker
-set "version=0.9.7"
+set "version=0.9.8"
 :top
 if NOT EXIST "%appdata%\locker\currentversion" goto createcurrentversion
 set "previousversion="
@@ -70,6 +70,9 @@ pause
 goto end
 :MDPrivate
 md Private
+FOR /F "tokens=* USEBACKQ" %%F IN (`type "%appdata%\locker\password\pass.encode"`) DO (
+SET newhash=%%F
+)
 echo %newhash%>> "Private\pass.encode"
 attrib +h +s "Private\pass.encode"
 echo Private created successfully
